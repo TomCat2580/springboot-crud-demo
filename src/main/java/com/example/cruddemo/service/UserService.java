@@ -26,4 +26,15 @@ public class UserService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+    public User update(Long id, User updatedUser) {
+      return repository.findById(id)
+            .map(user -> {
+                user.setName(updatedUser.getName());
+                user.setEmail(updatedUser.getEmail());
+                return repository.save(user);
+            })
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 }
